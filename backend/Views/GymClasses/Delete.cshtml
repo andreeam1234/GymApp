@@ -1,0 +1,30 @@
+@model GymClassViewModel
+@{
+    ViewData["Title"] = "Sterge clasa";
+}
+
+<h2 class="mb-4 text-danger">Confirma stergerea</h2>
+
+<div class="alert alert-warning">
+    Esti sigur ca vrei sa stergi clasa <strong>@Model.Name</strong>? Aceasta actiune este ireversibila
+    si va sterge si toate sesiunile programate asociate (@Model.SessionCount sesiuni).
+</div>
+
+<dl class="row">
+    <dt class="col-sm-2">Nume</dt>
+    <dd class="col-sm-10">@Model.Name</dd>
+
+    <dt class="col-sm-2">Categorie</dt>
+    <dd class="col-sm-10">@Model.Category</dd>
+
+    <dt class="col-sm-2">Descriere</dt>
+    <dd class="col-sm-10">@Model.Description</dd>
+
+    <dt class="col-sm-2">Durata</dt>
+    <dd class="col-sm-10">@Model.DurationMinutes minute</dd>
+</dl>
+
+<form asp-controller="GymClasses" asp-action="Delete" asp-route-id="@Model.Id" method="post">
+    <button type="submit" class="btn btn-danger">Da, sterge clasa</button>
+    <a asp-controller="GymClasses" asp-action="Index" class="btn btn-link">Anuleaza</a>
+</form>

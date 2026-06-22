@@ -1,0 +1,51 @@
+<div class="container">
+  <h2 class="mb-4">Rezervarile mele</h2>
+
+  <div *ngIf="loading()" class="text-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Se incarca...</span>
+    </div>
+  </div>
+
+  <div *ngIf="!loading() && error()" class="alert alert-danger">
+    {{ error() }}
+    <button class="btn btn-sm btn-outline-danger ms-3" (click)="loadBookings()">Reincearca</button>
+  </div>
+
+  <div *ngIf="!loading() && !error() && bookings().length === 0" class="alert alert-info">
+    Nu ai nicio rezervare momentan. <a routerLink="/sessions">Vezi sesiunile disponibile</a>.
+  </div>
+
+  <table class="table table-striped" *ngIf="!loading() && !error() && bookings().length > 0">
+    <thead>
+      <tr>
+        <th>Clasa</th>
+        <th>Data sesiunii</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let booking of bookings()">
+        <td>{{ booking.gymClassName }}</td>
+        <td>{{ booking.sessionStartTime | date:'dd MMM yyyy, HH:mm' }}</td>
+        <td>
+          <span class="badge"
+                [class.bg-success]="booking.status === 'Confirmed'"
+                [class.bg-secondary]="booking.status === 'Cancelled'"
+                [class.bg-info]="booking.status === 'Attended'">
+            {{ booking.status }}
+          </span>
+        </td>
+        <td>
+          <button class="btn btn-outline-danger btn-sm"
+                  *ngIf="booking.status === 'Confirmed'"
+                  [disabled]="cancellingId() === booking.id"
+                  (click)="cancel(booking)">
+            {{ cancellingId() === booking.id ? 'Se anuleaza...' : 'Anuleaza' }}
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

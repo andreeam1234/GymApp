@@ -1,0 +1,15 @@
+# .NET
+backend/bin/
+backend/obj/
+backend/logs/
+*.user
+
+# Angular / Node
+frontend/gym-app/node_modules/
+frontend/gym-app/dist/
+frontend/gym-app/.angular/
+
+# IDE
+.vs/
+.vscode/
+.idea/

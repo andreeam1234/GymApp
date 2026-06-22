@@ -1,0 +1,92 @@
+ @model ProfileViewModel
+@{
+    ViewData["Title"] = "Profilul meu";
+}
+
+<h2 class="mb-4">Profilul meu</h2>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Model.FullName</h5>
+                <p class="card-text text-muted">@Model.Email</p>
+                @foreach (var role in Model.Roles)
+                {
+                    <span class="badge bg-secondary me-1">@role</span>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Abonament</h5>
+                @if (Model.ActiveMembership != null)
+                {
+                    <p class="card-text">
+                        Tip: <strong>@Model.ActiveMembership.Type</strong><br />
+                        Expira: @Model.ActiveMembership.EndDate.ToString("dd MMM yyyy")
+                    </p>
+                }
+                else
+                {
+                    <p class="card-text text-muted">Nu ai un abonament activ.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<h4>Inscrieri la clase</h4>
+@if (!Model.MyEnrollments.Any())
+{
+    <p class="text-muted">Nu esti inscris la nicio sesiune momentan.</p>
+}
+else
+{
+    <table class="table table-striped mb-4">
+        <thead>
+            <tr>
+                <th>Clasa</th>
+                <th>Data sesiunii</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var e in Model.MyEnrollments)
+            {
+                <tr>
+                    <td>@e.GymClassName</td>
+                    <td>@e.SessionStartTime.ToString("dd MMM yyyy, HH:mm")</td>
+                    <td><span class="badge bg-info text-dark">@e.Status</span></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<h4>Planurile mele de antrenament</h4>
+@if (!Model.MyWorkoutPlans.Any())
+{
+    <p class="text-muted">Nu ai create planuri de antrenament inca.</p>
+}
+else
+{
+    <ul class="list-group mb-4">
+        @foreach (var plan in Model.MyWorkoutPlans)
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                @plan.Title
+                <span class="badge bg-primary rounded-pill">@plan.ExerciseCount exercitii</span>
+            </li>
+        }
+    </ul>
+}
+
+<hr class="my-5" />
+
+<h4>Rezervari</h4>
+<a href="http://localhost:4200/sessions" target="_blank" class="btn btn-primary">
+    Deschide rezervarile &#8599;
+</a>

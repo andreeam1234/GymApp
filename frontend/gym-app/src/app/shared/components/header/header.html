@@ -1,0 +1,19 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/sessions">🏋️ GymApp - Rezervari</a>
+    <div class="navbar-nav me-auto">
+      <a class="nav-link" routerLink="/sessions">Sesiuni disponibile</a>
+      <a class="nav-link" routerLink="/my-bookings" *ngIf="authService.isAuthenticated()">Rezervarile mele</a>
+    </div>
+    <div class="navbar-nav">
+      <ng-container *ngIf="(authService.currentUser$ | async) as user; else guest">
+        <span class="navbar-text me-3">{{ user.name }}</span>
+        <button class="btn btn-outline-light btn-sm" (click)="logout()">Logout</button>
+      </ng-container>
+      <ng-template #guest>
+        <a class="nav-link" routerLink="/login">Login</a>
+        <a class="nav-link" routerLink="/register">Register</a>
+      </ng-template>
+    </div>
+  </div>
+</nav>

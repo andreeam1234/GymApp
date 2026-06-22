@@ -1,0 +1,57 @@
+<div class="container">
+  <h2 class="mb-4">Sesiuni disponibile</h2>
+
+  <div *ngIf="bookingError()" class="alert alert-danger alert-dismissible">
+    {{ bookingError() }}
+    <button type="button" class="btn-close" (click)="bookingError.set(null)"></button>
+  </div>
+
+  <!-- Loading state -->
+  <div *ngIf="loading()" class="text-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Se incarca...</span>
+    </div>
+  </div>
+
+  <!-- Error state -->
+  <div *ngIf="!loading() && error()" class="alert alert-danger">
+    {{ error() }}
+    <button class="btn btn-sm btn-outline-danger ms-3" (click)="loadSessions()">Reincearca</button>
+  </div>
+
+  <!-- Empty state -->
+  <div *ngIf="!loading() && !error() && sessions().length === 0" class="alert alert-info">
+    Nu exista sesiuni programate momentan.
+  </div>
+
+  <!-- Data -->
+  <div class="row" *ngIf="!loading() && !error()">
+    <div class="col-md-4 mb-4" *ngFor="let session of sessions()">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">{{ session.gymClassName }}</h5>
+          <p class="card-text mb-1">
+            <strong>{{ session.startTime | date:'dd MMM yyyy, HH:mm' }}</strong>
+          </p>
+          <p class="card-text text-muted mb-1">Trainer: {{ session.trainerName }}</p>
+          <p class="card-text text-muted mb-1">Sala: {{ session.room }}</p>
+          <p class="card-text">
+            <span class="badge" [class.bg-danger]="isFull(session)" [class.bg-success]="!isFull(session)">
+              {{ session.enrolledCount }} / {{ session.capacity }} locuri
+            </span>
+          </p>
+        </div>
+        <div class="card-footer bg-transparent">
+          <div *ngIf="bookingSuccessId() === session.id" class="alert alert-success py-1 px-2 small mb-2">
+            Rezervat cu succes!
+          </div>
+          <button class="btn btn-primary w-100"
+                  [disabled]="isFull(session) || bookingId() === session.id"
+                  (click)="book(session)">
+            {{ bookingId() === session.id ? 'Se rezerva...' : (isFull(session) ? 'Complet' : 'Rezerva') }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

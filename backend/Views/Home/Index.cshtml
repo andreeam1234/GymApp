@@ -1,0 +1,55 @@
+@model HomeViewModel
+@{
+    ViewData["Title"] = "Acasa";
+}
+
+<div class="p-5 mb-4 bg-dark text-white rounded-3">
+    <div class="container-fluid py-3">
+        <h1 class="display-5 fw-bold">Bine ai venit la GymApp</h1>
+        <p class="col-md-8 fs-5">
+            Rezerva-ti locul la clase, urmareste-ti planurile de antrenament si gestioneaza-ti
+            abonamentul, totul intr-un singur loc.
+        </p>
+        <a asp-controller="GymClasses" asp-action="Index" class="btn btn-light btn-lg">Vezi clasele</a>
+    </div>
+</div>
+
+<div class="row mb-4 text-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">@Model.TotalClasses</h3>
+                <p class="card-text text-muted">Clase disponibile</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">@Model.TotalExercises</h3>
+                <p class="card-text text-muted">Exercitii</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2 class="mb-3">Clase recomandate</h2>
+<div class="row">
+    @foreach (var gymClass in Model.FeaturedClasses)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">@gymClass.Name</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">@gymClass.Category</h6>
+                    <p class="card-text">@gymClass.Description</p>
+                    <p class="text-muted small">Durata: @gymClass.DurationMinutes min</p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a asp-controller="GymClasses" asp-action="Details" asp-route-id="@gymClass.Id"
+                       class="btn btn-outline-primary btn-sm">Vezi detalii</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
