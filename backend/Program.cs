@@ -153,7 +153,6 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-// Order matters: ExceptionHandling first, so it catches everything downstream.
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseMiddleware<LoggingMiddleware>();
 

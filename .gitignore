@@ -13,3 +13,6 @@ frontend/gym-app/.angular/
 .vs/
 .vscode/
 .idea/
+
+GymApp.Tests/bin/
+GymApp.Tests/obj/
